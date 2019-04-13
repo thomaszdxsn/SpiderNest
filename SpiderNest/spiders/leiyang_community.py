@@ -73,7 +73,7 @@ class LeiYangCommunitySpider(scrapy.Spider):
             # =============== 解析用户数据 =======================
             user_block = post_block.css('.favatar')
             username = user_block.css('.xw1::text').extract_first()
-            user_loader = ItemLoader(item=LyCommunityUserItem(), selector=user_block)
+            user_loader = ItemLoader(item=LyCommunityUserItem(), selector=user_block, base_url='http://www.lysq.com/')
             user_loader.add_value('username', username)
             user_loader.add_css('avatar_url', '.avtm img::attr("src")')
             user_loader.add_css('medal_list', 'p.md_ctrl img::attr("alt")')
@@ -92,7 +92,8 @@ class LeiYangCommunitySpider(scrapy.Spider):
             # =============== 解析post comment =================
             comment_block = post_block.css('td.plc')
             content = comment_block.css('.pcb .t_fsz').extract_first()
-            comment_loader = ItemLoader(item=LyCommunityCommentItem(), selector=comment_block)
+            comment_loader = ItemLoader(item=LyCommunityCommentItem(), selector=comment_block,
+                                        base_url='http://www.lysq.com/')
             comment_loader.add_value('post_url', response.meta['post_url'])
             comment_loader.add_value('author_username', username)
             comment_loader.add_value('content', content)

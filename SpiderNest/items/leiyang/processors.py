@@ -3,12 +3,13 @@ author: thomaszdxsn
 """
 import re
 from datetime import datetime
+from urllib.parse import urljoin
 from typing import Union, List
 
 import arrow
 from arrow.parser import ParserError
 
-__all__ = ('created_time_input_processor', 'Exists')
+__all__ = ('created_time_input_processor', 'Exists', 'populate_abs_url')
 
 _CREATED_TIME_REG_MINS_AGO = re.compile(r'(\d{1,2})\s分钟前', flags=re.U)
 _CREATED_TIME_REG_HOUR_AGO = re.compile(r'(\d{1,2})\s小时前', flags=re.U)
@@ -65,6 +66,12 @@ def strip_datetime_fields(dt: Union[arrow.Arrow, datetime], fields: List[str]) -
 def created_time_input_processor(val: str) -> datetime:
     dt = _created_time_input_processor(val)
     return strip_datetime_fields(dt, ['second', 'microsecond'])
+
+
+def populate_abs_url(url, loader_context):
+    if url.startswith('http'):
+        return url
+    return urljoin(loader_context['base_url'], url)
 
 
 class Exists(object):

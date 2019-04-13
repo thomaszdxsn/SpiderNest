@@ -4,7 +4,7 @@ author: thomaszdxsn
 from scrapy import Item, Field
 from scrapy.loader.processors import TakeFirst, MapCompose, Identity
 
-from .processors import created_time_input_processor
+from .processors import created_time_input_processor, populate_abs_url
 
 __all__ = ('LyCommunityPostItem', 'LyCommunityUserItem', 'LyCommunityCommentItem')
 
@@ -18,7 +18,7 @@ class LyCommunityPostItem(Item):
         output_processor=TakeFirst()
     )
     url = Field(
-        input_processor=MapCompose(str, str.strip),
+        input_processor=MapCompose(str, str.strip, populate_abs_url),
         output_processor=TakeFirst()
     )
     author_username = Field(
@@ -61,7 +61,7 @@ class LyCommunityUserItem(Item):
         output_processor=TakeFirst()
     )
     avatar_url = Field(
-        intput_processor=MapCompose(str, str.strip),
+        intput_processor=MapCompose(str, str.strip, populate_abs_url),
         output_processor=TakeFirst()
     )
     topic_count = Field(
@@ -96,7 +96,7 @@ class LyCommunityUserItem(Item):
 
 class LyCommunityCommentItem(Item):
     post_url = Field(
-        input_processor=MapCompose(str, str.strip),
+        input_processor=MapCompose(str, str.strip, populate_abs_url),
         output_processor=TakeFirst()
     )
     author_username = Field(
@@ -119,6 +119,6 @@ class LyCommunityCommentItem(Item):
         output_processor=TakeFirst()
     )
     image_urls = Field(
-        input_processor=MapCompose(str, str.strip),
+        input_processor=MapCompose(str, str.strip, populate_abs_url),
         output_processor=Identity()
     )
