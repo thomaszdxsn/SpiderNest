@@ -6,7 +6,7 @@ import pytest
 from scrapy.loader import ItemLoader
 
 from SpiderNest.items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem
-from SpiderNest.items.leiyang.processors import created_time_input_processor, strip_datetime_fields
+from SpiderNest.items.processors import created_time_input_processor, strip_datetime_fields
 from SpiderNest.models.leiyang import LyCommunityPost, LyCommunityUser, LyCommunityComment
 
 

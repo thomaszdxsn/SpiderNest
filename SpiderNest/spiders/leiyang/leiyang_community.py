@@ -4,8 +4,8 @@ from scrapy import Request
 from scrapy.http import Response
 from scrapy.loader import ItemLoader
 
-from ..items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem
-from ..core.regexs import RE_DATETIME, RE_IMG_SRC
+from SpiderNest.items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem
+from SpiderNest.core.regexs import RE_DATETIME, RE_IMG_SRC
 
 __all__ = ('LeiYangCommunitySpider',)
 
@@ -30,7 +30,7 @@ class LeiYangCommunitySpider(scrapy.Spider):
         post_urls = []
 
         for post in post_list.css('tbody[id!="separatorline"]'):
-            loader = ItemLoader(item=LyCommunityPostItem(), selector=post)
+            loader = ItemLoader(item=LyCommunityPostItem(), selector=post, base_url='http://www.lysq.com/')
             loader.add_value('block_name', response.meta['forum_block'])
             loader.add_css('title', 'a.s.xst::text')
             loader.add_css('url', 'a.s.xst::attr("href")')

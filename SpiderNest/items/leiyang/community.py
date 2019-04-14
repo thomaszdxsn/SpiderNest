@@ -4,7 +4,7 @@ author: thomaszdxsn
 from scrapy import Item, Field
 from scrapy.loader.processors import TakeFirst, MapCompose, Identity
 
-from .processors import created_time_input_processor, populate_abs_url
+from SpiderNest.items.processors import created_time_input_processor, populate_abs_url
 
 __all__ = ('LyCommunityPostItem', 'LyCommunityUserItem', 'LyCommunityCommentItem')
 
