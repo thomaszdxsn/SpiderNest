@@ -25,7 +25,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ip_66ip.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ip_66ip.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SpiderNest/spiders/ip_pool/ip_66ip.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
@@ -33,6 +33,26 @@
               <folding>
                 <element signature="e#24#37#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LICENSE" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="913">
+              <caret line="200" column="33" lean-forward="false" selection-start-line="200" selection-start-column="33" selection-end-line="200" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="879">
+              <caret line="106" column="13" lean-forward="false" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -139,6 +159,8 @@
         <option value="$PROJECT_DIR$/SpiderNest/spiders/ip_pool/ip_ip3366.py" />
         <option value="$PROJECT_DIR$/SpiderNest/items/ip.py" />
         <option value="$PROJECT_DIR$/SpiderNest/spiders/ip_pool/ip_data5u.py" />
+        <option value="$PROJECT_DIR$/LICENSE" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -176,37 +198,6 @@
             <path>
               <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="items" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="spiders" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="spiders" type="462c0819:PsiDirectoryNode" />
-              <item name="ip_pool" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpiderNest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="SpiderNest" type="462c0819:PsiDirectoryNode" />
-              <item name="spiders" type="462c0819:PsiDirectoryNode" />
-              <item name="leiyang" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -298,29 +289,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SpiderNest/items/leiyang/community.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="7" lean-forward="false" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding>
-            <element signature="e#28#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SpiderNest/models/leiyang/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="85">
-            <caret line="5" column="32" lean-forward="false" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
-            <folding />
-          </first_editor>
-          <second_editor>
-            <js_state />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SpiderNest/spiders/leiyang/leiyang_community.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -662,6 +630,22 @@
           <folding>
             <element signature="e#24#37#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="913">
+          <caret line="200" column="33" lean-forward="false" selection-start-line="200" selection-start-column="33" selection-end-line="200" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="879">
+          <caret line="106" column="13" lean-forward="false" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
