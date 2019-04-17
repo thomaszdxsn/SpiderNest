@@ -2,7 +2,7 @@
 import base64
 
 import scrapy
-from scrapy.http import Request, Response
+from scrapy.http import Response
 from scrapy.loader import ItemLoader
 
 from ...items.ip import IPItem
@@ -21,13 +21,14 @@ class ProxydbSpider(scrapy.Spider):
         data_num = response.css('html').re_first(
             r'<div style="display:none" data-[a-zA-Z]*="(\d+)"'
         )
-        for tr in response.css('table.table-hover tbody tr'):
-            loader = ItemLoader(item=IPItem(), selector=tr)
+        for row in response.css('table.table-hover tbody tr'):
+            loader = ItemLoader(item=IPItem(), selector=row)
+            loader.add_value('source', 'dbproxy')
             loader.add_css('remark', 'td:nth-child(4) div::text')
             loader.add_css('protocol', 'td:nth-child(5)::text')
 
             # 解密IP
-            script_elem = tr.css('td:nth-child(1) script::text')
+            script_elem = row.css('td:nth-child(1) script::text')
             ip_first_part = script_elem.re_first(r'\'([\d\.]*)\'\.split')
             ip_first_part = ''.join(reversed(ip_first_part))
 
