@@ -11,6 +11,7 @@ class IpProxylistSpider(scrapy.Spider):
     start_urls = ['http://proxylist.me/?sort=-updated']
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+        'DOWNLOAD_DELAY': 5
     }
     MAX_PAGE: int=30
     
@@ -21,6 +22,8 @@ class IpProxylistSpider(scrapy.Spider):
 
     def parse(self, response: Response):
         for row in response.css('#datatable-row-highlight tbody tr'):
+            if len(row.css('td')) != 9:
+                continue
             loader = ItemLoader(item=IPItem(), selector=row)
             loader.add_value('source', 'proxylist')
             loader.add_css('ip', 'td:nth-child(1) a::text')
