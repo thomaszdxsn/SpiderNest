@@ -21,8 +21,10 @@ class IPItem(scrapy.Item):
         output_processor=TakeFirst()
     )
     remark = scrapy.Field(
+        input_processor=MapCompose(str, str.strip),
         output_processor=Join(separator=', ')
     )
     source = scrapy.Field(
+        input_processor=MapCompose(str, str.strip),
         output_processor=TakeFirst()
     )
