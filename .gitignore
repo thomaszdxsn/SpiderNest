@@ -108,3 +108,6 @@ venv.bak/
 */.pytest_cache/*
 
 .idea/
+
+# betamax files
+cassettes/*

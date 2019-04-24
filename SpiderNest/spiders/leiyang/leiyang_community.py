@@ -13,10 +13,23 @@ __all__ = ('LeiYangCommunitySpider',)
 class LeiYangCommunitySpider(scrapy.Spider):
     name = 'leiyang-community'
     allowed_domains = ['www.lysq.com']
+    start_urls = [
+        'http://www.lysq.com/forum-5-1.html',
+        'http://www.lysq.com/forum-6-1.html',
+        'http://www.lysq.com/forum-114-1.html',
+    ]
 
     def start_requests(self):
         forum_block_urls = {
             '纸都在线': 'http://www.lysq.com/forum-5-1.html',
+            '社区水库': 'http://www.lysq.com/forum-6-1.html',
+            '精彩活动': 'http://www.lysq.com/forum-114-1.html',
+            '社区公益': 'http://www.lysq.com/forum-50-1.html',
+            '微视自拍': 'http://www.lysq.com/forum-122-1.html',
+            '旅游户外': 'http://www.lysq.com/forum-49-1.html',
+            '原创文学': 'http://www.lysq.com/forum-35-1.html',
+            '耒阳史记': 'http://www.lysq.com/forum-31-1.html',
+
         }
         for block_name, index_url in forum_block_urls.items():
             yield Request(
