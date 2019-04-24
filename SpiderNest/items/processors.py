@@ -52,7 +52,8 @@ def _created_time_input_processor(val: str) -> arrow.Arrow:
         if match:
             return arrow.now().shift(minutes=-30)
     return arrow.get(
-        val, ['YYYY-M-DD HH:mm:ss', 'YYYY-MM-D HH:mm:ss', 'YYYY-M-D HH:mm:ss']
+        val, ['YYYY-M-DD HH:mm:ss', 'YYYY-MM-D HH:mm:ss', 'YYYY-M-D HH:mm:ss',
+              'YYYY-M-DD HH:mm', 'YYYY-MM-D HH:mm', 'YYYY-M-D HH:mm']
     ).replace(tzinfo='Asia/Shanghai')
 
 

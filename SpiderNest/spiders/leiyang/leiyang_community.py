@@ -50,7 +50,9 @@ class LeiYangCommunitySpider(scrapy.Spider):
             loader.add_css('author_username', 'td.by:nth-child(3) a::text')
             loader.add_css('created_time', 'td.by:nth-child(3) span::text')
             loader.add_css('last_comment_username', 'td.by:nth-child(5) a::text')
-            loader.add_css('last_comment_time', 'td.by:nth-child(5) span::text')
+            loader.add_css('last_comment_time', 'td.by:nth-child(5) em span::attr("title")')
+            loader.add_css('last_comment_time', 'td.by:nth-child(5) em span::text')
+            loader.add_css('last_comment_time', 'td.by:nth-child(5) em a::text')
             loader.add_css('comment_count', 'td.num a::text')
             loader.add_css('view_count', 'td.num em::text')
             has_image = True if post.css('th.common img[alt="attach_img"]') else False
