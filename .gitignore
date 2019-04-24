@@ -110,4 +110,4 @@ venv.bak/
 .idea/
 
 # betamax files
-*/cassettes/
+**/cassettes/
