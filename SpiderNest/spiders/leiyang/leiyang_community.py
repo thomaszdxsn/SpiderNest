@@ -118,5 +118,4 @@ class LeiYangCommunitySpider(scrapy.Spider):
             comment_header_loader.add_css('floor', 'strong em::text')
             comment_header_loader.add_value('floor', response.meta['page'] * 10 + floor)
             comment_header_loader.add_css('created_time', 'div.authi em::text', re=RE_DATETIME)
-
             yield comment_loader.load_item()

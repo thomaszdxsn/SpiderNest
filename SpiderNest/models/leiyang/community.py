@@ -42,4 +42,4 @@ class LyCommunityComment(BaseModel):
     created_time: datetime
     content: str
     signature: Optional[str]
-    image_urls: List[str]
+    image_urls: Optional[List[str]]

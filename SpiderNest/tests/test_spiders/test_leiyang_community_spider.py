@@ -5,7 +5,7 @@ import pytest
 from scrapy.item import Item
 
 from ...spiders.leiyang.leiyang_community import LeiYangCommunitySpider
-from ...items.leiyang.community import LyCommunityUserItem, LyCommunityPostItem
+from ...items.leiyang.community import LyCommunityUserItem, LyCommunityCommentItem
 from ...models.leiyang.community import LyCommunityPost, LyCommunityComment, LyCommunityUser
 
 spider = LeiYangCommunitySpider()
@@ -46,7 +46,7 @@ def test_spider_parse_forum_post(resource_get, request_factory, url):
     parse_result = spider.parse_forum_post(selector)
 
     for item in parse_result:
-        if isinstance(item, LyCommunityPostItem):
-            assert LyCommunityPost(**dict(item))
+        if isinstance(item, LyCommunityCommentItem):
+            assert LyCommunityComment(**dict(item))
         elif isinstance(item, LyCommunityUserItem):
             assert LyCommunityUser(**dict(item))
