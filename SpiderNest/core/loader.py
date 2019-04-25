@@ -1,7 +1,6 @@
 """
 author: thomaszdxsn
 """
-from abc import ABCMeta, abstractmethod
 from typing import Type, TYPE_CHECKING
 
 from scrapy.loader import ItemLoader

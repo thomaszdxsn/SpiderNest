@@ -3,6 +3,7 @@ author: thomaszdxsn
 """
 import pytest
 from scrapy.item import Item
+from scrapy.http import Request
 
 from ...spiders.leiyang.leiyang_community import LeiYangCommunitySpider
 from ...items.leiyang.community import LyCommunityUserItem, LyCommunityCommentItem
@@ -50,3 +51,12 @@ def test_spider_parse_forum_post(resource_get, request_factory, url):
             assert LyCommunityComment(**dict(item))
         elif isinstance(item, LyCommunityUserItem):
             assert LyCommunityUser(**dict(item))
+
+
+def test_spider_start_request_will_ouput_request_for_forum_list_page():
+    result = spider.start_requests()
+    for item in result:
+        assert isinstance(item, Request)
+        assert item.callback == spider.parse_forum_block_list
+        assert item.meta['page'] == 1
+        assert item.meta['forum_block']
