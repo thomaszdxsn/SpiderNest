@@ -68,7 +68,7 @@ class LeiYangCommunitySpider(scrapy.Spider):
             yield Request(
                 response.urljoin(post_url),
                 callback=self.parse_forum_post,
-                # 这个url是relative的, 并且是post的第一页, 所以不能使用response.url
+                # 这个post_url是relative的, 并且是post的第一页, 所以不能使用response.url
                 meta={'post_url': post_url, 'page': response.meta['page']}
             )
 

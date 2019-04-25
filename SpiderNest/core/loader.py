@@ -17,7 +17,7 @@ class SchemaItemLoader(ItemLoader):
 
     def __init__(self, **kwargs):
         self.model = kwargs.pop('model', None) or self.default_model
-        assert self.model, '必须提供一个model，已供验证使用'
+        assert self.model, '必须提供一个model，用来供validate使用'
         super(SchemaItemLoader, self).__init__(**kwargs)
 
     def is_valid(self) -> bool:
