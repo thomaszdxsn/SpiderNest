@@ -11,7 +11,7 @@ __all__ = ("XicidailiSpider",)
 class XicidailiSpider(scrapy.Spider):
     name = 'ip-xicidaili'
     allowed_domains = ['xicidaili.com']
-    start_urls = ['http://www.xicidaili.com/']
+    start_urls = ['https://www.xicidaili.com/']
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
         'DOWNLOAD_DELAY': 1
@@ -34,7 +34,12 @@ class XicidailiSpider(scrapy.Spider):
             loader.add_css('port', 'td:nth-child(3)::text')
             loader.add_css('remark', 'td:nth-child(4) a::text')
             loader.add_css('protocol', 'td:nth-child(6)::text')
-            yield loader.load_item()
+
+            item = loader.load_item()
+            if not item.get('ip'):
+                # 有时候有些row数据无效
+                continue
+            yield item
 
         if self.page < self.MAX_PAGE:
             self.page += 1

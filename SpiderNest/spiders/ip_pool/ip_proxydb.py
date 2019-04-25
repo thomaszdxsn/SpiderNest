@@ -7,6 +7,8 @@ from scrapy.loader import ItemLoader
 
 from ...items.ip import IPItem
 
+__all__ = ("ProxydbSpider",)
+
 
 class ProxydbSpider(scrapy.Spider):
     name = 'ip-proxydb'

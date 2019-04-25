@@ -5,6 +5,8 @@ from scrapy.loader import ItemLoader
 
 from ...items.ip import IPItem
 
+__all__ = ('IpProxylistSpider',)
+
 
 class IpProxylistSpider(scrapy.Spider):
     name = 'ip-proxylist'

@@ -5,6 +5,8 @@ from scrapy.loader import ItemLoader
 
 from ...items.ip import IPItem
 
+__all__ = ('IpData5uSpider',)
+
 
 class IpData5uSpider(scrapy.Spider):
     name = 'ip-data5u'

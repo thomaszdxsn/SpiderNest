@@ -8,6 +8,8 @@ from scrapy.loader import ItemLoader
 
 from ...items.ip import IPItem
 
+__all__ = ('IpCoolproxySpider',)
+
 
 class IpCoolproxySpider(scrapy.Spider):
     name = 'ip-coolproxy'
