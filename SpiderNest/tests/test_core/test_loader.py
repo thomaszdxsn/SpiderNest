@@ -19,3 +19,11 @@ def test_loader_validate_method():
         loader.add_value(field, field)
 
     assert loader.is_valid()
+
+
+def test_loader_validate_method_not_valid():
+    loader =SchemaItemLoader(item=IPItem(), model=IP)
+    for field in ('source', 'port', 'protocol', 'remark'):
+        loader.add_value(field, field)
+
+    assert loader.is_valid() is False

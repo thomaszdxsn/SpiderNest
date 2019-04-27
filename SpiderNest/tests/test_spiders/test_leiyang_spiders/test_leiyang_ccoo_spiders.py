@@ -3,9 +3,9 @@ author: thomaszdxsn
 """
 from scrapy.http import Request
 
-from ...spiders.leiyang.leiyang_ccoo import LeiyangCcooRecruitSpider
-from ...items.leiyang.ccoo import LyCcooRecruitmentItem
-from ...models.leiyang.ccoo import LyCcooRecruitmentInfo
+from SpiderNest.spiders.leiyang.leiyang_ccoo import LeiyangCcooRecruitSpider
+from SpiderNest.items.leiyang.ccoo import LyCcooRecruitmentItem
+from SpiderNest.models.leiyang.ccoo import LyCcooRecruitmentInfo
 
 
 def test_ly_ccoo_recruitment_spider_parse_method(resource_get):

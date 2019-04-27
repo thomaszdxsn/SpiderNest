@@ -4,29 +4,18 @@ author: thomaszdxsn
 from scrapy import Item, Field
 from scrapy.loader.processors import TakeFirst, MapCompose, Identity
 
-from SpiderNest.items.processors import created_time_input_processor, populate_abs_url
+from ..processors import created_time_input_processor, populate_abs_url
+from ..post import PostItem
 
 __all__ = ('LyCommunityPostItem', 'LyCommunityUserItem', 'LyCommunityCommentItem')
 
 
-class LyCommunityPostItem(Item):
-    block_name = Field(
-        output_processor=TakeFirst()
-    )
-    title = Field(
-        input_processor=MapCompose(str, str.strip),
-        output_processor=TakeFirst()
-    )
-    url = Field(
-        input_processor=MapCompose(str, str.strip, populate_abs_url),
-        output_processor=TakeFirst()
-    )
+class LyCommunityPostItem(PostItem):
     author_username = Field(
         input_processor=MapCompose(str, str.strip),
         output_processor=TakeFirst()
     )
-    view_count = Field(
-        input_processor=MapCompose(int),
+    block_name = Field(
         output_processor=TakeFirst()
     )
     comment_count = Field(
@@ -39,10 +28,6 @@ class LyCommunityPostItem(Item):
     )
     has_image = Field(
         input_processor=MapCompose(bool),
-        output_processor=TakeFirst()
-    )
-    created_time = Field(
-        input_processor=MapCompose(str.strip, created_time_input_processor),
         output_processor=TakeFirst()
     )
     last_comment_time = Field(

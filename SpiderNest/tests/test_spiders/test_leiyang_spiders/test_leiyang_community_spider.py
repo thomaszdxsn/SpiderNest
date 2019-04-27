@@ -5,9 +5,9 @@ import pytest
 from scrapy.item import Item
 from scrapy.http import Request
 
-from ...spiders.leiyang.leiyang_community import LeiYangCommunitySpider
-from ...items.leiyang.community import LyCommunityUserItem, LyCommunityCommentItem
-from ...models.leiyang.community import LyCommunityPost, LyCommunityComment, LyCommunityUser
+from SpiderNest.spiders.leiyang.leiyang_community import LeiYangCommunitySpider
+from SpiderNest.items.leiyang.community import LyCommunityUserItem, LyCommunityCommentItem
+from SpiderNest.models.leiyang.community import LyCommunityPost, LyCommunityComment, LyCommunityUser
 
 spider = LeiYangCommunitySpider()
 

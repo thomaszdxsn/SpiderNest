@@ -22,7 +22,7 @@ class SchemaItemLoader(ItemLoader):
     def is_valid(self) -> bool:
         try:
             item = self.load_item()
-            self.model(**item).dict()
+            self.model(**item)
         except ValidationError:
             return False
         return True
