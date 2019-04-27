@@ -1,6 +1,7 @@
 """
 author: thomaszdxsn
 """
+import logging
 from typing import Type, TYPE_CHECKING
 
 from scrapy.loader import ItemLoader
@@ -10,6 +11,7 @@ if TYPE_CHECKING:
     T_Pydantic_Model = Type[BaseModel]
 
 __all__ = ('SchemaItemLoader',)
+logger = logging.getLogger(__name__)
 
 
 class SchemaItemLoader(ItemLoader):
@@ -24,5 +26,6 @@ class SchemaItemLoader(ItemLoader):
             item = self.load_item()
             self.model(**item)
         except ValidationError:
+            logger.exception('验证格式错误')
             return False
         return True

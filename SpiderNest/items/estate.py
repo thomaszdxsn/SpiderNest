@@ -15,13 +15,9 @@ class EstateType(Enum):
 
 
 class EstateItem(Item):
-    name = Field(
+    title = Field(
         input_processor=MapCompose(str.strip),
         output_processor=TakeFirst()
-    )
-    tags = Field(
-        input_processor=MapCompose(str.strip),
-        output_processor=Identity()
     )
     type = Field(
         input_processor=MapCompose(str.strip),

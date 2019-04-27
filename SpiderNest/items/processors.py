@@ -9,6 +9,8 @@ from typing import Union, List
 import arrow
 from arrow.parser import ParserError
 
+from ..core.regexs import RE_UNIT_NUM
+
 __all__ = ('created_time_input_processor', 'Exists', 'populate_abs_url')
 
 _CREATED_TIME_REG_MINS_AGO = re.compile(r'(\d{1,2})\s分钟前', flags=re.U)
@@ -82,3 +84,23 @@ class Exists(object):
             if value is not None and value != '':
                 return True
         return False
+
+
+def replace_cn_punc(s: str) -> str:
+    return s.replace('：', '').replace(' ', '')
+
+
+def convert_to_float(s: str, default: float=0.0) -> float:
+    try:
+        return float(s)
+    except ValueError:
+        return default
+
+
+def convert_num_with_unit(s: str) -> float:
+    num, unit = RE_UNIT_NUM.match(s).groups()
+    num = float(num)
+    if unit:
+        if unit == '万':
+            num *= 10000
+    return num

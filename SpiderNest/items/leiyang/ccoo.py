@@ -7,6 +7,7 @@ from scrapy import Field
 from scrapy.loader.processors import MapCompose, TakeFirst, Join
 
 from ..recruitment import RecruitmentItem
+from ..processors import replace_cn_punc
 
 __all__ = ('LyCcooRecruitmentItem',)
 
@@ -26,9 +27,6 @@ def construct_info(info_strs: List[str]) -> dict:
         if i % 2 == 0
     )
 
-
-def replace_cn_punc(s: str) -> str:
-    return s.replace('：', '').replace(' ', '')
 
 
 class LyCcooRecruitmentItem(RecruitmentItem):

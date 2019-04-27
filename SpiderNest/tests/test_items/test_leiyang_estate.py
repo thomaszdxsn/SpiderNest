@@ -4,7 +4,7 @@ author: thomaszdxsn
 import pytest
 
 from ...items.leiyang.estate import LyEstatePostItem, LyEstateRentItem, LyEstateSecondItem, LyEstateNewItem
-from ...models.leiyang.estate import LyEstatePost
+from ...models.leiyang.estate import LyEstatePost, LyEstateNewInfo, LyEstateSecondHandInfo
 from ...core.loader import SchemaItemLoader
 
 
@@ -122,3 +122,72 @@ def test_ly_estate_post_item(params):
      assert loader.is_valid()
 
 
+@pytest.mark.parametrize('params', [
+    [
+        ('address', ['城中（中心城区） 联络线与五梅路交汇处']),
+        ('decoration', ['：毛坯\xa0\xa0']),
+        ('developer', ['耒阳龙腾置业有限公司']),
+        ('main_styles', ['108.18㎡-141.51㎡三房至四房']),
+        ('marketing_address', ['耒阳龙腾时代广场一楼（城市展厅）']),
+        ('price_per_square', ['4300 ']),
+        ('project_type', ['高层']),
+        ('title', ['龙腾绿城']),
+        ('type', 'NEW'),
+        ('description', ['a', 'b', 'c']),
+        ('tags', ['住宅', '商铺', '花园社区'])
+    ]
+])
+def test_ly_estate_new_item(params):
+    loader = SchemaItemLoader(item=LyEstateNewItem(), model=LyEstateNewInfo)
+    for f, v in params:
+        loader.replace_value(f, v)
+    assert loader.is_valid()
+
+
+@pytest.mark.parametrize('params', [
+    {'address': ['城西（西湖路以西） '],
+     'age': ['2015年\xa0'],
+     'area': ['108'],
+     'decoration': ['\xa0\xa0'],
+     'description': ['\r\n\xa0',
+                     '核心卖点',
+                     '\r\n',
+                     '\r\n',
+                     '电梯江景房，户型方正，户型带厅出阳台，格局方正实用，楼前无遮挡，透光性好，交通位置方便，楼下就有公交站。交通方便（银行、学校、市场、超市、公园等配套设施齐全，生活非常便利）。',
+                     '\r\n',
+                     '\r\n',
+                     '业主心态',
+                     '\r\n',
+                     '该房屋业主本来打算自己用，目前在外地已购房，现诚心出售.',
+                     '\r\n',
+                     '\r\n',
+                     '小区配套',
+                     '\r\n',
+                     '交通小区楼下有多条公交线路：经过。',
+                     '\r\n银行：农商银行、建行、工行、中国邮政储蓄银行、中国人民银行、中国银行等。',
+                     '\r\n公园：烈士陵园，西有狮子岭森林公园，东有马阜岭生态公园，南有西湖游园等。',
+                     '\r\n学校：有师范学校，耒师附小，市三中，一中，金杯小学，童星学校等周边学校都可以入读。',
+                     '\r\n医院：中医院，第一人民医院，第二人民医院，第三人民医院，妇幼保键院，耒阳现代女子医院，云森医院等都很近。',
+                     '\r\n商场/超市：佳福乐超市，新步步高超市，海琼百货等.',
+                     '\r\n'],
+     'direction': ['南\xa0\xa0'],
+     'floor': ['第28层/总32层'],
+     'house_type': ['住宅'],
+     'images': ['//ly.513fm.com/file/upload/201806/14/1747408176.jpg',
+                '//ly.513fm.com/file/upload/201806/14/1747391376.jpg',
+                '//ly.513fm.com/file/upload/201806/14/1747382976.jpg',
+                '//ly.513fm.com/file/upload/201806/14/1747386976.jpg',
+                '//ly.513fm.com/file/upload/201806/14/1747371376.jpg'],
+     'price': ['45.8', '万'],
+     'style': ['3室2厅2卫'],
+     'title': ['外滩公馆江景房视野极好南北通透不动产证过户接受银行按揭'],
+     'type': 'SECOND_HAND'},
+
+])
+def test_ly_estate_secondhand_item(params):
+    loader = SchemaItemLoader(item=LyEstateSecondItem(), model=LyEstateSecondHandInfo)
+    for k, v in params.items():
+        loader.replace_value(k, v)
+    assert loader.is_valid()
+    item = loader.load_item()
+    assert all(img.startswith('https://') for img in item['images'])
