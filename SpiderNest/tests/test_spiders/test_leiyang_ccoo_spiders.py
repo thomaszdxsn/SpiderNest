@@ -12,7 +12,8 @@ def test_ly_ccoo_recruitment_spider_parse_method(resource_get):
     spider = LeiyangCcooRecruitSpider()
     url = spider.start_urls[0]
     selector = resource_get(url)
-    parse_result = spider.parse(selector)
+    parse_result = list(spider.parse(selector))
+    assert len(parse_result) > 0
 
     for yield_result in parse_result:
         assert isinstance(yield_result, Request)
@@ -27,7 +28,8 @@ def test_ly_ccoo_recruitment_spider_parse_detail_method(resource_get):
     detail_url = next(parse_result).url
 
     selector = resource_get(detail_url)
-    parse_result = spider.parse(selector)
+    parse_result = list(spider.parse_detail(selector))
+    assert len(parse_result) > 0
 
     for yield_result in parse_result:
         assert isinstance(yield_result, LyCcooRecruitmentItem)

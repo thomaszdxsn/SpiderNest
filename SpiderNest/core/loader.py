@@ -13,10 +13,9 @@ __all__ = ('SchemaItemLoader',)
 
 
 class SchemaItemLoader(ItemLoader):
-    default_model: T_Pydantic_Model
 
     def __init__(self, **kwargs):
-        self.model = kwargs.pop('model', None) or self.default_model
+        self.model: 'T_Pydantic_Model' = kwargs.pop('model', None)
         assert self.model, '必须提供一个model，用来供validate使用'
         super(SchemaItemLoader, self).__init__(**kwargs)
 
