@@ -111,3 +111,6 @@ venv.bak/
 
 # betamax files
 **/cassettes/
+
+# for dynaconf
+.secrets.yaml

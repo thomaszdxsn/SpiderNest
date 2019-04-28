@@ -3,7 +3,7 @@ author: thomaszdxsn
 """
 import pytest
 
-from ...items.leiyang.estate import LyEstatePostItem, LyEstateRentItem, LyEstateSecondItem, LyEstateNewItem
+from ...items.leiyang.estate import LyEstatePostItem, LyEstateSecondItem, LyEstateNewItem
 from ...models.leiyang.estate import LyEstatePost, LyEstateNewInfo, LyEstateSecondHandInfo
 from ...core.loader import SchemaItemLoader
 
