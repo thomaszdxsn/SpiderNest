@@ -6,6 +6,8 @@ from scrapy.loader import ItemLoader
 from ...items.leiyang.rencai import LyRencaiRecruitmentItem, LyRencaiCompanyItem
 from ...core.regexs import RE_DATE
 
+__all__ = ('LeiyangVhCompanySpider', 'LeiyangVhJobSpider')
+
 
 class LeiyangVhJobSpider(scrapy.Spider):
     name = 'lyvh-job'

@@ -1,8 +1,6 @@
 """
 author: thomaszdxsn
 """
-import pytest
-
 from ...spiders.leiyang.leiyang_vh import LeiyangVhCompanySpider, LeiyangVhJobSpider
 from ...items.leiyang.rencai import LyRencaiCompanyItem, LyRencaiRecruitmentItem
 from ...models.leiyang.rencai import LyRencaiCompanyInfo, LyRencaiJobInfo

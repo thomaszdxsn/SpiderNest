@@ -13,6 +13,8 @@ from ...items.leiyang.estate import (
 from ...items.estate import EstateType
 from ...core.regexs import RE_DATE
 
+__all__ = ("LyEstateInfoSpider", "LyEstatePostSpider")
+
 
 class LyEstatePostSpider(scrapy.Spider):
     name = 'leiyang-estate-post'

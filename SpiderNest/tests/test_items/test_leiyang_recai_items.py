@@ -31,7 +31,6 @@ def test_ly_rencei_recruit_item_processor_is_valid(params):
     for k, v in params.items():
         loader.add_value(k, v)
     item = loader.load_item()
-    print(item)
     assert LyRencaiJobInfo(**item)
 
 

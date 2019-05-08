@@ -11,7 +11,7 @@ from scrapy.loader import ItemLoader
 from SpiderNest.items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem, Ly114Item
 from SpiderNest.core.regexs import RE_DATETIME, RE_IMG_SRC
 
-__all__ = ('LeiYangCommunitySpider',)
+__all__ = ('LeiYangCommunitySpider', 'LeiyangCommnuity114Spider')
 
 
 class LeiYangCommunitySpider(scrapy.Spider):

@@ -6,6 +6,8 @@ from scrapy.loader import ItemLoader
 from ...items.leiyang.ccoo import LyCcooRecruitmentItem
 from ...core.regexs import RE_DATE
 
+__all__ = ('LeiyangCcooRecruitSpider',)
+
 
 class LeiyangCcooRecruitSpider(scrapy.Spider):
     name = 'leiyang-ccoo-recruit'
