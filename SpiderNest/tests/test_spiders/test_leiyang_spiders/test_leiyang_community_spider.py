@@ -60,3 +60,4 @@ def test_spider_start_request_will_ouput_request_for_forum_list_page():
         assert item.callback == spider.parse_forum_block_list
         assert item.meta['page'] == 1
         assert item.meta['forum_block']
+

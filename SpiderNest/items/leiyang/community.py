@@ -7,7 +7,7 @@ from scrapy.loader.processors import TakeFirst, MapCompose, Identity
 from ..processors import created_time_input_processor, populate_abs_url
 from ..post import PostItem
 
-__all__ = ('LyCommunityPostItem', 'LyCommunityUserItem', 'LyCommunityCommentItem')
+__all__ = ('LyCommunityPostItem', 'LyCommunityUserItem', 'LyCommunityCommentItem', 'Ly114Item')
 
 
 class LyCommunityPostItem(PostItem):
@@ -106,4 +106,40 @@ class LyCommunityCommentItem(Item):
     image_urls = Field(
         input_processor=MapCompose(str, str.strip, populate_abs_url),
         output_processor=Identity()
+    )
+
+
+class Ly114Item(Item):
+    name = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    address = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    category = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    cover = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    description = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    phone = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    # 微信有可能是微信ID，有可能是二维码
+    wechat = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=lambda w: [i for i in w if i]
+    )
+    qq = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
     )

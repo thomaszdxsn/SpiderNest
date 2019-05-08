@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import re
+from urllib.parse import urlencode
+from datetime import datetime
+
 import scrapy
-from scrapy import Request
-from scrapy.http import Response
+from scrapy import Request, Selector
+from scrapy.http import HtmlResponse, XmlResponse
 from scrapy.loader import ItemLoader
 
-from SpiderNest.items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem
+from SpiderNest.items.leiyang import LyCommunityPostItem, LyCommunityUserItem, LyCommunityCommentItem, Ly114Item
 from SpiderNest.core.regexs import RE_DATETIME, RE_IMG_SRC
 
 __all__ = ('LeiYangCommunitySpider',)
@@ -38,7 +42,7 @@ class LeiYangCommunitySpider(scrapy.Spider):
                 meta={'forum_block': block_name, 'page': 1}
             )
 
-    def parse_forum_block_list(self, response: Response):
+    def parse_forum_block_list(self, response: HtmlResponse):
         post_list = response.css('table#threadlisttableid')
         post_urls = []
 
@@ -83,7 +87,7 @@ class LeiYangCommunitySpider(scrapy.Spider):
                 }
             )
 
-    def parse_forum_post(self, response: Response):
+    def parse_forum_post(self, response: HtmlResponse):
         for floor, post_block in enumerate(response.css('#postlist div.postaaa'), start=1):
             # =============== 解析用户数据 =======================
             user_block = post_block.css('.favatar')
@@ -119,3 +123,104 @@ class LeiYangCommunitySpider(scrapy.Spider):
             comment_header_loader.add_value('floor', response.meta['page'] * 10 + floor)
             comment_header_loader.add_css('created_time', 'div.authi em::text', re=RE_DATETIME)
             yield comment_loader.load_item()
+
+
+class LeiyangCommnuity114Spider(scrapy.Spider):
+    name = 'leiyang-community-114'
+    allowed_domains = ['www.lysq.com']
+    custom_settings = {
+        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+    }
+    _DETAIL_BODY_EXTRACT_PATTERN = re.compile(r'<!\[CDATA\[(.*?)\]\]>', re.M|re.U|re.DOTALL)
+    _COMPANY_ID_EXTRACT_PATTERN = re.compile(r"rstblock\((\d+)\)")
+
+    def _get_timestamp_for_now(self) -> int:
+        return int(datetime.now().timestamp() * 1000)
+
+    def _request_next_page(self, page: int, timestamp: int, formhash: str):
+        params = {
+            'id': 'xigua_114:xigua_114',
+            'formhash': formhash,
+            'inajax': '1',
+            'page': page,
+            '_': timestamp
+        }
+        base_url = 'http://www.lysq.com/plugin.php'
+        url = f'{base_url}?{urlencode(params)}'
+        yield Request(
+            url,
+            callback=self.parse,
+            meta={'page': page, 'formhash': formhash}
+        )
+
+    def _request_detail_page(self, company_id: int, address: str, category: str):
+        params = {
+            'id': 'xigua_114',
+            'mobile': 'no',
+            'ac': 'profile',
+            'company': company_id,
+            'infloat': 'yes',
+            'handlekey': 'xigua_114profile',
+            'inajax': 1,
+            'ajaxtarget': 'fwin_content_xigua_114profile'
+        }
+        base_url = 'http://www.lysq.com/plugin.php'
+        url = f'{base_url}?{urlencode(params)}'
+        yield Request(
+            url,
+            callback=self.parse_detail,
+            meta={'address': address, 'category': category}
+        )
+
+    def start_requests(self):
+        yield Request(
+            url='http://www.lysq.com/plugin.php?id=xigua_114:xigua_114',
+            callback=self.parse_index
+        )
+
+    def parse_index(self, response: HtmlResponse):
+        # 需要破解discuz！的xss_check函数
+        formhash = response.css('input[name="formhash"]::attr(value)').extract_first()
+        yield from self._request_next_page(
+            page=1,
+            timestamp=self._get_timestamp_for_now(),
+            formhash=formhash
+        )
+
+    def parse(self, response: HtmlResponse):
+        if not response.body:
+            # 如果response没有数据，代表已经爬取到了最大页数，停止爬取
+            return
+
+        for row in response.css('a.rstblock'):
+            category = row.css('.rstblock-logo span::text').extract_first()
+            address = row.css('.rstblock-content .rstblock-cost::text').extract()
+            onclick_attr = row.css('::attr("onclick")').extract_first()
+            company_id = self._COMPANY_ID_EXTRACT_PATTERN.match(onclick_attr).group(1)
+            yield from self._request_detail_page(int(company_id), address, category)
+
+
+        yield from self._request_next_page(
+            page=response.meta['page'] + 1,
+            timestamp=self._get_timestamp_for_now(),
+            formhash=response.meta['formhash']
+        )
+
+    def parse_detail(self, response: XmlResponse):
+        body = self._DETAIL_BODY_EXTRACT_PATTERN.search(response.body_as_unicode()).group()
+        selector = Selector(text=body)
+        loader = ItemLoader(item=Ly114Item(), selector=selector)
+
+        loader.add_value('address', response.meta['address'])
+        loader.add_value('category', response.meta['category'])
+        loader.add_css('name', 'h1::text')
+        loader.add_css('cover', 'img.logo::attr("src")')
+        loader.add_css('description', 'div.rstblock-cost::text')
+        loader.add_css('phone', 'span.rstblock-monthsales::text')
+        # 微信号
+        loader.add_css('wechat', 'label[onmouseover]::text')
+        # 微信二维码
+        loader.add_css('wechat', '#wechatqrlarge::attr("src")')
+        loader.add_css('qq', 'a.qqtalk::text')
+
+        yield loader.load_item()

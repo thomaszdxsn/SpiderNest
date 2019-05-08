@@ -6,7 +6,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-__all__ = ('LyCommunityPost', 'LyCommunityUser', 'LyCommunityComment')
+__all__ = ('LyCommunityPost', 'LyCommunityUser', 'LyCommunityComment', "Ly114Info")
 
 
 class LyCommunityPost(BaseModel):
@@ -43,3 +43,14 @@ class LyCommunityComment(BaseModel):
     content: str
     signature: Optional[str]
     image_urls: Optional[List[str]]
+
+
+class Ly114Info(BaseModel):
+    name: str
+    category: str
+    phone: Optional[str]
+    address: Optional[str]
+    wechat: Optional[List[str]]
+    qq: Optional[str]
+    description: Optional[str]
+    cover: Optional[str]

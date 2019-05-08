@@ -20,11 +20,21 @@ cassette_dir.mkdir(parents=True, exist_ok=True)
 with betamax.Betamax.configure() as config:
     config.cassette_library_dir = cassette_dir.resolve()
     config.preserve_exact_body_bytes = True
+    config.default_cassette_options['record_mode'] = 'once'
 
 
 @pytest.fixture
 def betamax_recorder(request):
-    return _betamax_recorder(request, parametrized=True)
+    record = _betamax_recorder(request, parametrized=True)
+    return record
+
+
+@pytest.fixture
+def switch_betamax_new_episode():
+    with betamax.Betamax.configure() as config:
+        config.default_cassette_options['record_mode'] = 'new_episodes'
+        yield
+        config.default_cassette_options['record_mode'] = 'once'
 
 
 @pytest.fixture
