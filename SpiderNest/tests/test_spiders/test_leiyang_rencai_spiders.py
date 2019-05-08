@@ -20,6 +20,7 @@ def test_leiyang_rencaiweb_job_spider(resource_get):
     assert len(detail_results) > 0
 
     for result in detail_results:
+        assert isinstance(result, LyRencaiRecruitmentItem)
         assert LyRencaiJobInfo(**result)
 
 
@@ -35,4 +36,5 @@ def test_leiyang_recaiweb_company_spider(resource_get):
     assert len(detail_results) > 0
 
     for result in detail_results:
-        assert LeiyangVhCompanySpider(**result)
+        assert isinstance(result, LyRencaiCompanyItem)
+        assert LyRencaiCompanyInfo(**result)
