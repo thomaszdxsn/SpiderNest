@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 import json
+from datetime import datetime
 from typing import Optional
 
 import scrapy
 from scrapy.http import Response, Request
 
 from ...core.utils import load_json_response
+from ...items.article import InfoQCnArticleItem
+
+__all__ = ("InfoQCnArticleItem",)
 
 
 class InfoqCnSpider(scrapy.Spider):
@@ -21,6 +25,11 @@ class InfoqCnSpider(scrapy.Spider):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
     }
 
+    def __init__(self, *args, **kwargs):
+        super(InfoqCnSpider, self).__init__(*args, **kwargs)
+        self.mode = kwargs.pop('mode', 'full')
+        self.update_max_page = kwargs.pop('update_max_page', 3)
+
     def _request_topic_info(self, topic_id: int):
         yield Request(
             'https://www.infoq.cn/public/v1/topic/getInfo',
@@ -32,7 +41,7 @@ class InfoqCnSpider(scrapy.Spider):
             callback=self.parse_topic_info
         )
 
-    def _request_article_list(self, topic_id: int, score: Optional[int]=None):
+    def _request_article_list(self, topic_id: int, page: int, score: Optional[int]=None):
         payload = {
             'id': topic_id,
             'size': 12,
@@ -46,7 +55,7 @@ class InfoqCnSpider(scrapy.Spider):
             method='POST',
             headers=self._HEADERS,
             callback=self.parse_article_list,
-            meta={'topic_id': topic_id}
+            meta={'topic_id': topic_id, 'page': page}
         )
 
     def _request_article_detail(self, uuid: str):
@@ -70,7 +79,7 @@ class InfoqCnSpider(scrapy.Spider):
         has_name = json_data['data']['name']
 
         if has_name:
-            yield from self._request_article_list(topic_id)
+            yield from self._request_article_list(topic_id, page=1)
         # topic id基本是500以内(目前在300以内, 2019.5.9)，中间可能会有跳跃
         if topic_id < 500 or has_name:
             yield from self._request_topic_info(topic_id=topic_id + 1)
@@ -84,13 +93,30 @@ class InfoqCnSpider(scrapy.Spider):
         for item in data_list:
             yield from self._request_article_detail(item['uuid'])
 
-        # TODO: 增量爬取时，可以不进行翻页，或者翻少数几页
+        page = response.meta['page']
+        if self.mode == 'update' and page > self.update_max_page:
+            # 如果是增量爬取，只爬每个topic的前几页
+            return
+
         yield from self._request_article_list(
             response.meta['topic_id'],
-            data_list[-1]['score']
+            page=page + 1,
+            score=data_list[-1]['score']
         )
 
     def parse_article_detail(self, response: Response):
         json_data = load_json_response(response)
-        # TODO: 导出为item 5:32开始测试
-        # 参考: https://www.infoq.cn/article/seven-uservices-antipatterns 的xhr请求
+        data = json_data['data']
+        yield InfoQCnArticleItem(
+            cover=data['article_cover'],
+            subtitle=data['article_subtitle'],
+            summary=data['article_summary'],
+            title=data['article_title'],
+            author_names=[a['nickname'] for a in data['author']] if data['author'] else None,
+            content=data['content'],
+            publish_time=datetime.fromtimestamp(data['publish_time'] / 1000),
+            topics=[t['name'] for t in data['topic']],
+            uuid=data['uuid'],
+            view_count=data['views'],
+            url=response.url
+        )

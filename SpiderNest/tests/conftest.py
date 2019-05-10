@@ -6,7 +6,7 @@ from typing import Callable
 
 import pathlib
 import pytest
-from scrapy.http import HtmlResponse, Request
+from scrapy.http import TextResponse, Request
 
 import betamax
 from betamax.fixtures.pytest import _betamax_recorder
@@ -43,7 +43,18 @@ def resource_get(betamax_session):
     def get(url, *args, **kwargs):
         request = kwargs.pop('request', None)
         resp = betamax_session.get(url, *args, **kwargs)
-        selector = HtmlResponse(body=resp.content, url=url, request=request)
+        selector = TextResponse(body=resp.content, url=url, request=request, headers=resp.headers)
+        return selector
+
+    return get
+
+
+@pytest.fixture
+def resource_post(betamax_session):
+    def get(url, *args, **kwargs):
+        request = kwargs.pop('request', None)
+        resp = betamax_session.post(url, *args, **kwargs)
+        selector = TextResponse(body=resp.content, url=url, request=request, headers=resp.headers)
         return selector
 
     return get
