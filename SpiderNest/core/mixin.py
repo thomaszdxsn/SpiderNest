@@ -17,7 +17,7 @@ def item_default_val_mixin_factory(**default_values) -> Type[ItemMixin]:
 
         def __init__(self, *args, **kwargs):
             for k, v in default_values.items():
-                kwargs.setdefault(k, v)
+                kwargs.setdefault(k, v if not callable(v) else v())
             super().__init__(*args, **kwargs)
 
     return _ItemMixin

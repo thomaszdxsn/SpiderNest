@@ -26,12 +26,14 @@ class LeiyangVhJobSpider(scrapy.Spider):
                 meta={'company_name': company_name}
             )
 
-        next_page = response.css('.pages a::attr("href")')[-1].extract()
-        if next_page != response.url:
-            yield response.follow(
-                next_page,
-                callback=self.parse
-            )
+        pages = response.css('.pages a::attr("href")').extract()
+        if pages:
+            next_page = pages[-1]
+            if next_page != response.url:
+                yield response.follow(
+                    next_page,
+                    callback=self.parse
+                )
 
     def parse_detail(self, response: HtmlResponse):
         loader = ItemLoader(item=LyRencaiRecruitmentItem(), selector=response)
