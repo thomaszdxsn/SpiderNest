@@ -1,7 +1,7 @@
 """
 author: thomaszdxsn
 """
-from typing import Type, Optional
+from typing import Type, Optional, Union
 
 from scrapy.item import Item
 from twisted.internet import defer
@@ -12,7 +12,7 @@ __all__ = ('insert_item',)
 
 
 @defer.inlineCallbacks
-def insert_item(spider_name: str, item: Type[Item], connection_pool: Optional[ConnectionPool]=None):
+def insert_item(spider_name: str, item: Type[Union[Item, dict]], connection_pool: Optional[ConnectionPool]=None):
     if not connection_pool:
         mongo = yield ConnectionPool(dync_settings['MONGO_URI'])
     else:

@@ -25,5 +25,5 @@ def test_insert_item(db):
     docs = db['test-insert'].find()
     assert docs.count() == 1
     doc = docs.next()
-    doc.pop('_id')
+    del doc['_id']
     assert doc == {'1': 1}
