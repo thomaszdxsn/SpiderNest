@@ -2,7 +2,7 @@
 author: thomaszdxsn
 """
 import warnings
-from typing import Callable
+import os
 
 import pathlib
 import pytest
@@ -12,6 +12,7 @@ import betamax
 from betamax.fixtures.pytest import _betamax_recorder
 
 warnings.simplefilter('ignore', category=DeprecationWarning)
+os.environ['ENV_FOR_DYNACONF'] = 'testing'
 
 
 # betamax配置
