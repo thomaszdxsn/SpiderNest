@@ -3,7 +3,7 @@ author: thomaszdxsn
 """
 import pytest
 
-from ...core.regexs import RE_DATE, RE_DATETIME, RE_IMG_SRC, RE_UNIT_NUM
+from ...core.regexs import RE_DATE, RE_DATETIME, RE_IMG_SRC, RE_UNIT_NUM, RE_CHINESE
 
 
 @pytest.mark.parametrize('input,expect', [
@@ -54,3 +54,12 @@ def test_re_img_src(input, expect):
 ])
 def test_re_unit_num(input, expect):
     assert RE_UNIT_NUM.match(input).groups() == expect
+
+
+@pytest.mark.parametrize('input, expect', [
+    ('中文1', True),
+    ('1中文', False)
+])
+def test_re_chinese(input, expect):
+    match = RE_CHINESE.match(input) is not None
+    assert match is expect
