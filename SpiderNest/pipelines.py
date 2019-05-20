@@ -20,4 +20,5 @@ class MongoPipeline(object):
     @defer.inlineCallbacks
     def process_item(self, item, spider):
         yield insert_item(spider.name, item, connection_pool=self.connection_pool)
+        # TODO: 加入超时时间，防止卡死
         return item
