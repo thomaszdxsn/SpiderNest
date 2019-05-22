@@ -23,4 +23,3 @@ def load_json_response(response: Union[scrapyResponse, requestsResponse]) -> JSO
 
 def union_modules_enter_points(*modules: ModuleType):
     return tuple(itertools.chain.from_iterable(mod.__all__ for mod in modules))
-

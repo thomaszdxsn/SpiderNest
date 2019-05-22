@@ -8,6 +8,8 @@ from twisted.internet import defer
 from dynaconf import settings as dync_settings
 from txmongo.connection import ConnectionPool
 
+from ..items.image import ImageItem
+
 __all__ = ('insert_item',)
 
 
@@ -20,6 +22,9 @@ def insert_item(spider_name: str, item: Type[Union[Item, dict]], connection_pool
 
     db = mongo[dync_settings.MONGO_DB_NAME]
     collection = db[spider_name]
+
+    if isinstance(item, ImageItem):
+        collection = db[dync_settings]
 
     yield collection.insert(
         dict(item),

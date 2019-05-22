@@ -6,6 +6,9 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.item import Item
+
+from SpiderNest.items.image import ImageItem, extract_image_items
 
 
 class SpidernestSpiderMiddleware(object):
@@ -33,6 +36,10 @@ class SpidernestSpiderMiddleware(object):
 
         # Must return an iterable of Request, dict or Item objects.
         for i in result:
+            if isinstance(i, Item) and not isinstance(i, ImageItem):
+                image_items = extract_image_items(spider.name, i)
+                for image_item in image_items:
+                    yield image_item
             yield i
 
     def process_spider_exception(self, response, exception, spider):
