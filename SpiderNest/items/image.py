@@ -13,6 +13,7 @@ def extract_image_items(spider_name: str, item: Item) -> Generator["ImageItem", 
     return (
         ImageItem(
             spider_name=spider_name,
+            item_name=type(item).__name__,
             key=f,
             image_urls=item[f] if isinstance(item[f], list) else [item[f]],
         )
@@ -22,6 +23,7 @@ def extract_image_items(spider_name: str, item: Item) -> Generator["ImageItem", 
 
 class ImageItem(Item):
     spider_name = Field()
+    item_name = Field()
     key = Field()
     image_urls = Field()
     images = Field()
