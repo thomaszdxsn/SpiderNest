@@ -31,18 +31,18 @@ class OneSpider(scrapy.Spider):
 
     def parse_index(self, response: HtmlResponse):
         img_max_index = int(response.css('#carousel-one a::attr(href)').re_first(self._URL_INDEX_MATCH))
-        # for i in range(self.img_start_index, img_max_index + 1):
-        #     yield response.follow(
-        #         self._BASE_IMG_URL.format(index=i),
-        #         callback=self.parse_img
-        #     )
-        #
-        # article_max_index = int(response.css('.fp-one-articulo ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
-        # for i in range(self.article_start_index, article_max_index + 1):
-        #     yield response.follow(
-        #         self._BASE_ARTICLE_URL.format(index=i),
-        #         callback=self.parse_article
-        #     )
+        for i in range(self.img_start_index, img_max_index + 1):
+            yield response.follow(
+                self._BASE_IMG_URL.format(index=i),
+                callback=self.parse_img
+            )
+
+        article_max_index = int(response.css('.fp-one-articulo ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
+        for i in range(self.article_start_index, article_max_index + 1):
+            yield response.follow(
+                self._BASE_ARTICLE_URL.format(index=i),
+                callback=self.parse_article
+            )
 
         question_max_index = int(response.css('.fp-one-cuestion ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
         for i in range(self.question_start_index, question_max_index + 1):
