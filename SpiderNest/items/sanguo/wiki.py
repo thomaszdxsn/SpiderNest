@@ -9,6 +9,7 @@ __all__ = ("SanguoWikiCharacterItem",)
 
 class SanguoWikiCharacterItem(Item):
     _img_fields = ['image']
+
     name = Field(
         input_processor=MapCompose(str, str.strip),
         output_processor=TakeFirst()

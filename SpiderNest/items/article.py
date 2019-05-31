@@ -8,6 +8,8 @@ __all__ = ("InfoQCnArticleItem",)
 
 
 class ArticleItem(Item):
+    _img_fields = ['cover']
+
     url = Field()
     cover = Field()
     title = Field()

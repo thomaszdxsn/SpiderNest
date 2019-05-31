@@ -36,10 +36,13 @@ class SpidernestSpiderMiddleware(object):
 
         # Must return an iterable of Request, dict or Item objects.
         for i in result:
+
+            # 从item中提取图片字段，生产ImageItem，供专门的pipeline进行下载
             if isinstance(i, Item) and not isinstance(i, ImageItem):
                 image_items = extract_image_items(spider.name, i)
                 for image_item in image_items:
                     yield image_item
+
             yield i
 
     def process_spider_exception(self, response, exception, spider):

@@ -114,3 +114,4 @@ venv.bak/
 
 # for dynaconf
 .secrets.yaml
+SpiderNest/images/

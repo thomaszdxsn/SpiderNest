@@ -62,6 +62,8 @@ class LyEstateNewItem(item_default_val_mixin_factory(type=EstateType.NEW.value),
 
 
 class LyEstateSecondItem(item_default_val_mixin_factory(type=EstateType.SECOND_HAND.value), EstateItem):
+    _img_fields = ['images']
+
     price = Field(
         input_processor=MapCompose(str.strip),
         output_processor=Compose(Join(separator=''), convert_num_with_unit)
@@ -109,6 +111,8 @@ class LyEstateSecondItem(item_default_val_mixin_factory(type=EstateType.SECOND_H
 
 
 class LyEstateRentItem(item_default_val_mixin_factory(type=EstateType.RENT.value), EstateItem):
+    _img_fields = ['images']
+
     per_month_price = Field(
         input_processor=MapCompose(str.strip, convert_to_float),
         output_processor=TakeFirst()

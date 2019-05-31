@@ -24,7 +24,7 @@ def insert_item(spider_name: str, item: Type[Union[Item, dict]], connection_pool
     collection = db[spider_name]
 
     if isinstance(item, ImageItem):
-        collection = db[dync_settings]
+        collection = db[dync_settings.IMAGE_COLLECTION]
 
     yield collection.insert(
         dict(item),

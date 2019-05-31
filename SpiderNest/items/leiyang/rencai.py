@@ -45,6 +45,8 @@ class LyRencaiRecruitmentItem(RecruitmentItem):
 
 
 class LyRencaiCompanyItem(Item):
+    _img_fields = ['cover']
+
     name = Field(
         input_processor=MapCompose(str, str.strip),
         output_processor=TakeFirst()
