@@ -1,7 +1,7 @@
-__all__ = ('item_default_val',)
+__all__ = ('item_default_vals',)
 
 
-def item_default_val(**default_values):
+def item_default_vals(**default_values):
     """为item的field加入默认值"""
 
     def wrapper(cls):

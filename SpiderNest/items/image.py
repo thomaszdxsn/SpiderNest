@@ -36,6 +36,8 @@ class ImageItem(Item):
 def register_image_fields(*fields: str) -> T_WRAPPER:
 
     def wrapper(cls):
+        for field in fields:
+            assert cls.fields.get(field, None) is not None
         setattr(cls, IMAGE_ATTR, fields)
         return cls
 
