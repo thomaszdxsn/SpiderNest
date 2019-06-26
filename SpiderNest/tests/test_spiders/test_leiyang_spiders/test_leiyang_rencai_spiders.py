@@ -1,9 +1,9 @@
 """
 author: thomaszdxsn
 """
-from ...spiders.leiyang.leiyang_vh import LeiyangVhCompanySpider, LeiyangVhJobSpider
-from ...items.leiyang.rencai import LyRencaiCompanyItem, LyRencaiRecruitmentItem
-from ...models.leiyang.rencai import LyRencaiCompanyInfo, LyRencaiJobInfo
+from SpiderNest.spiders.leiyang.leiyang_vh import LeiyangVhCompanySpider, LeiyangVhJobSpider
+from SpiderNest.items.leiyang.rencai import LyRencaiCompanyItem, LyRencaiRecruitmentItem
+from SpiderNest.models.leiyang.rencai import LyRencaiCompanyInfo, LyRencaiJobInfo
 
 
 def test_leiyang_rencaiweb_job_spider(resource_get):

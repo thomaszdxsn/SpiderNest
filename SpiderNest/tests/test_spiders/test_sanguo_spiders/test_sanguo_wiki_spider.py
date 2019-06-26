@@ -1,11 +1,14 @@
 """
 author: thomaszdxsn
 """
+import pytest
+
 from scrapy.http import Request
 
 from SpiderNest.spiders.sanguo.sanguo_wiki import SanguoWikiSpider, SanguoWikiCharacterItem
 
 
+@pytest.mark.skip(reason='网站无法访问 ')
 def test_parse_method_will_emit_request(resource_get):
     spider = SanguoWikiSpider()
     selector = resource_get(spider.start_urls[0])
@@ -15,6 +18,7 @@ def test_parse_method_will_emit_request(resource_get):
     assert isinstance(yield_result, Request)
 
 
+@pytest.mark.skip(reason='网站无法访问')
 def test_parse_detail_method_will_emit_item(resource_get):
     spider = SanguoWikiSpider()
     selector = resource_get(spider.start_urls[0])
