@@ -11,7 +11,8 @@ from arrow.parser import ParserError
 
 from ..core.regexs import RE_UNIT_NUM
 
-__all__ = ('created_time_input_processor', 'Exists', 'populate_abs_url')
+__all__ = ('created_time_input_processor', 'Exists', 'populate_abs_url',
+           'convert_to_float', 'convert_num_with_unit')
 
 _CREATED_TIME_REG_MINS_AGO = re.compile(r'(\d{1,2})\s分钟前', flags=re.U)
 _CREATED_TIME_REG_HOUR_AGO = re.compile(r'(\d{1,2})\s小时前', flags=re.U)

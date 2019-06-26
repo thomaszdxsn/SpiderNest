@@ -6,7 +6,8 @@ from enum import Enum
 from scrapy.item import Item, Field
 from scrapy.loader.processors import MapCompose, TakeFirst, Identity
 
-__all__ = ('EstateItem',)
+__all__ = ('EstateItem', 'EstateType')
+
 
 class EstateType(Enum):
     NEW = 'NEW'

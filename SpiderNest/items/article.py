@@ -3,13 +3,13 @@ author: thomaszdxsn
 """
 from scrapy import Item, Field
 
+from .image import register_image_fields
+
 __all__ = ("InfoQCnArticleItem",)
 
 
-
+@register_image_fields('cover')
 class ArticleItem(Item):
-    _img_fields = ['cover']
-
     url = Field()
     cover = Field()
     title = Field()

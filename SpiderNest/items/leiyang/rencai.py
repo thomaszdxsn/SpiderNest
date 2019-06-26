@@ -8,6 +8,7 @@ from scrapy import Field, Item
 from scrapy.loader.processors import MapCompose, Join, Identity, TakeFirst
 
 from ..recruitment import RecruitmentItem
+from ..image import register_image_fields
 
 __all__ = ('LyRencaiRecruitmentItem', 'LyRencaiCompanyItem')
 
@@ -21,7 +22,6 @@ def salary_input_processor(val: str) -> Optional[List[int]]:
 
 def salary_output_processor(val: List[Optional[list]]) -> Optional[List[int]]:
     return [v for v in val if isinstance(v, int)]
-
 
 
 class LyRencaiRecruitmentItem(RecruitmentItem):
@@ -44,9 +44,8 @@ class LyRencaiRecruitmentItem(RecruitmentItem):
     )
 
 
+@register_image_fields('cover')
 class LyRencaiCompanyItem(Item):
-    _img_fields = ['cover']
-
     name = Field(
         input_processor=MapCompose(str, str.strip),
         output_processor=TakeFirst()

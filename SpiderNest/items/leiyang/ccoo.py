@@ -28,7 +28,6 @@ def construct_info(info_strs: List[str]) -> dict:
     )
 
 
-
 class LyCcooRecruitmentItem(RecruitmentItem):
     company_info = Field(
         input_processor=MapCompose(str.strip, replace_cn_punc),

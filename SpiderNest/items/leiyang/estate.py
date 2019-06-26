@@ -5,6 +5,7 @@ from scrapy.item import Field
 from scrapy.loader.processors import Join, MapCompose, TakeFirst, Identity, Compose
 
 from ..post import PostItem
+from ..image import register_image_fields
 from ..estate import EstateItem, EstateType
 from ..processors import convert_to_float, convert_num_with_unit
 from ...core.mixin import item_default_val_mixin_factory

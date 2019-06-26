@@ -5,7 +5,7 @@ from typing import Generator, Type, Callable
 
 from scrapy.item import Item, Field
 
-__all__ = ("ImageItem", 'register_image_fields')
+__all__ = ("ImageItem", 'register_image_fields', 'extract_image_items')
 
 IMAGE_ATTR = '_img_fields'
 T_ITEM = Type[Item]
