@@ -1,15 +1,19 @@
 """
 author: thomaszdxsn
 """
-from typing import Generator
+from typing import Generator, Type, Callable
 
 from scrapy.item import Item, Field
 
-__all__ = ("ImageItem",)
+__all__ = ("ImageItem", 'register_image_fields')
+
+IMAGE_ATTR = '_img_fields'
+T_ITEM = Type[Item]
+T_WRAPPER = Callable[[T_ITEM], T_ITEM]
 
 
 def extract_image_items(spider_name: str, item: Item) -> Generator["ImageItem", None, None]:
-    fields = getattr(item, "_img_fields", [])
+    fields = getattr(item, IMAGE_ATTR, [])
     return (
         ImageItem(
             spider_name=spider_name,
@@ -27,3 +31,12 @@ class ImageItem(Item):
     key = Field()
     image_urls = Field()
     images = Field()
+
+
+def register_image_fields(*fields: str) -> T_WRAPPER:
+
+    def wrapper(cls):
+        setattr(cls, IMAGE_ATTR, fields)
+        return cls
+
+    return wrapper
