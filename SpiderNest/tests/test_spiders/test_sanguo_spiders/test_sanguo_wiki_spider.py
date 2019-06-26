@@ -30,3 +30,4 @@ def test_parse_detail_method_will_emit_item(resource_get):
     yield_result = next(parse_detail_result)
 
     assert isinstance(yield_result, SanguoWikiCharacterItem)
+
