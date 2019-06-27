@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.http import HtmlResponse, Request
+from scrapy.loader import ItemLoader
+
+from ...items.porn.x_art import XArtBlogPostItem, XArtModelItem, XArtVideoItem
+
+__all__ = ('XArtSpider',)
 
 
 class XArtSpider(scrapy.Spider):
@@ -43,7 +48,18 @@ class XArtSpider(scrapy.Spider):
             )
 
     def parse_model_detail(self, response: HtmlResponse):
-        pass
+        loader = ItemLoader(item=XArtModelItem(), selector=response)
+
+        h2_texts = response.css('div.info h2::text').extract()
+
+        loader.add_css('name', 'h1.show-for-large-up::text')
+        loader.add_css('photo', 'img.info-img::attr(src)')
+        loader.add_css('brief', 'div.info p::text')
+        loader.add_value('vote_score', h2_texts[0])
+        loader.add_value('vote_count', h2_texts[0])
+        loader.add_value('age', h2_texts[2])
+        loader.add_value('country', h2_texts[3])
+        yield loader.load_item()
 
     def parse_video_list(self, response: HtmlResponse):
         pass
