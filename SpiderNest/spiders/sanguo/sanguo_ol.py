@@ -5,6 +5,10 @@ import json
 import scrapy
 from scrapy.http import HtmlResponse, Request
 
+from ...items.sanguo.hero import SanguoOlHeroItem
+
+__all__ = ('SanguoOlSpider',)
+
 
 class SanguoOlSpider(scrapy.Spider):
     name = 'sanguo-ol'
@@ -32,10 +36,16 @@ class SanguoOlSpider(scrapy.Spider):
         json_resp = self._process_dirty_json(response)
 
         for hero in json_resp['soul']:
-            yield response.follow(
-                url=self.DETAIL_API.format(name_url=hero['name_url']),
-                meta={'meta_item': hero},
-                callback=self.parse_detail
+            yield SanguoOlHeroItem(
+                name=hero['name'],
+                pic=response.urljoin(hero['pic']),
+                name_pinyin=hero['pinyin'],
+                sex=hero['sex'],
+                name_zi=hero['zi'],
+                life_range=hero['shengsi'],
+                come_from=hero['jiguan'],
+                brief=hero['content'],
+                cata=hero['cata']
             )
 
         if json_resp['page'] < json_resp['mpage']:
@@ -43,6 +53,3 @@ class SanguoOlSpider(scrapy.Spider):
                 url=self.LIST_API.format(page=json_resp['page'] + 1),
                 callback=self.parse
             )
-
-    def parse_detail(self, response: HtmlResponse):
-        meta_item = response.meta['meta_item']
