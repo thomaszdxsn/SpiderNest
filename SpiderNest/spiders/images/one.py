@@ -7,6 +7,8 @@ from scrapy.loader import ItemLoader
 
 from ...items.one import OneImgItem
 
+__all__ = ('OneSpider',)
+
 
 class OneSpider(scrapy.Spider):
     name = 'one'
@@ -37,19 +39,19 @@ class OneSpider(scrapy.Spider):
                 callback=self.parse_img
             )
 
-        article_max_index = int(response.css('.fp-one-articulo ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
-        for i in range(self.article_start_index, article_max_index + 1):
-            yield response.follow(
-                self._BASE_ARTICLE_URL.format(index=i),
-                callback=self.parse_article
-            )
-
-        question_max_index = int(response.css('.fp-one-cuestion ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
-        for i in range(self.question_start_index, question_max_index + 1):
-            yield response.follow(
-                self._BASE_QUESTION_URL.format(index=i),
-                callback=self.parse_question
-            )
+        # article_max_index = int(response.css('.fp-one-articulo ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
+        # for i in range(self.article_start_index, article_max_index + 1):
+        #     yield response.follow(
+        #         self._BASE_ARTICLE_URL.format(index=i),
+        #         callback=self.parse_article
+        #     )
+        #
+        # question_max_index = int(response.css('.fp-one-cuestion ul li a::attr(href)').re_first(self._URL_INDEX_MATCH))
+        # for i in range(self.question_start_index, question_max_index + 1):
+        #     yield response.follow(
+        #         self._BASE_QUESTION_URL.format(index=i),
+        #         callback=self.parse_question
+        #     )
 
     def parse_img(self, response: HtmlResponse):
         loader = ItemLoader(item=OneImgItem(), selector=response)
