@@ -33,6 +33,10 @@ def convert_datetime(s: str) -> datetime:
     return datetime.strptime(s, '%b %d, %Y')
 
 
+def blog_post_convert_datetime(s: str) -> datetime:
+    return datetime.strptime(s, '%B %d, %Y')
+
+
 @register_image_fields('photo')
 class XArtModelItem(Item):
     name = Field(
@@ -101,11 +105,20 @@ class XArtVideoItem(Item):
     )
 
 
-@register_image_fields('images')
 class XArtBlogPostItem(Item):
-    title = Field()
-    video = Field()
-    images = Field()
-    publish_time = Field()
-    content = Field()
-    love_count = Field()
+    title = Field(
+        input_processor=MapCompose(str.strip),
+        output_processor=TakeFirst()
+    )
+    publish_time = Field(
+        input_processor=MapCompose(str.strip, blog_post_convert_datetime),
+        output_processor=TakeFirst()
+    )
+    content = Field(
+        input_processor=MapCompose(str.strip),
+        output_processor=Join()
+    )
+    like_count = Field(
+        input_processor=MapCompose(str.strip, int),
+        output_processor=TakeFirst()
+    )

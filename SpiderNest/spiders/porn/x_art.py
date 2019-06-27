@@ -10,21 +10,23 @@ __all__ = ('XArtSpider',)
 
 class XArtSpider(scrapy.Spider):
     name = 'x-art'
-    allowed_domains = ['x-art.com']
     start_urls = ['https://www.x-art.com/models/order/popularity/']
+    custom_settings = {
+        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+    }
 
     def start_requests(self):
-        model_list_url = 'https://www.x-art.com/models/order/popularity/'
-        yield Request(
-            model_list_url,
-            callback=self.parse_model_list
-        )
-
-        video_list_url = 'https://www.x-art.com/videos/'
-        yield Request(
-            video_list_url,
-            callback=self.parse_video_list
-        )
+        # model_list_url = 'https://www.x-art.com/models/order/popularity/'
+        # yield Request(
+        #     model_list_url,
+        #     callback=self.parse_model_list
+        # )
+        #
+        # video_list_url = 'https://www.x-art.com/videos/'
+        # yield Request(
+        #     video_list_url,
+        #     callback=self.parse_video_list
+        # )
 
         blog_list_url = 'http://blog.x-art.com/'
         yield Request(
@@ -58,7 +60,7 @@ class XArtSpider(scrapy.Spider):
         loader.add_value('vote_count', h2_texts[0])
         loader.add_value('age', h2_texts[2])
         loader.add_value('country', h2_texts[3])
-        # yield loader.load_item()
+        yield loader.load_item()
 
     def parse_video_list(self, response: HtmlResponse):
         detail_urls = response.css('#allvideos li a::attr(href)')
@@ -81,7 +83,7 @@ class XArtSpider(scrapy.Spider):
         vote_text = h2_texts[0]
 
         loader.add_css('name', 'div.info h1::text')
-        loader.add_css('cover', 'div.widescreen img[class$="start"]::attr(src)')
+        loader.add_css('cover', 'div.widescreen img:not([class="start"])::attr(src)')
         loader.add_css('screenshots', 'div.gallery-item img::attr(src)')
         loader.add_css('cast', 'h2 a::text')
         loader.add_css('brief', 'p::text')
@@ -91,4 +93,20 @@ class XArtSpider(scrapy.Spider):
         yield loader.load_item()
 
     def parse_blog_list(self, response: HtmlResponse):
-        pass
+        detail_nodes = response.css('h2 a::attr(href)')
+        for detail_node in detail_nodes:
+            yield response.follow(detail_node, callback=self.parse_blog_detail)
+
+        next_page = response.css('.next_page a::attr(href)').extract_first(None)
+        if next_page:
+            yield response.follow(next_page, callback=self.parse_blog_list)
+
+    def parse_blog_detail(self, response: HtmlResponse):
+        loader = ItemLoader(item=XArtBlogPostItem(), selector=response)
+
+        loader.add_css('title', 'div.blog_post_title h2::text')
+        loader.add_css('content', 'article *::text')
+        loader.add_css('like_count', '.like_count::text')
+        loader.add_css('publish_time', '.listing_meta span:first-child::text')
+
+        yield loader.load_item()

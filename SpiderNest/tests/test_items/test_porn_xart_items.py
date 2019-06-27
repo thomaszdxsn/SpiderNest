@@ -5,7 +5,7 @@ from scrapy.loader import ItemLoader
 import pytest
 
 from ...items.porn.x_art import XArtModelItem, XArtVideoItem, XArtBlogPostItem
-from ...models.porn.x_art import XArtModel, XArtVideo
+from ...models.porn.x_art import XArtModel, XArtVideo, XArtBlogPost
 
 
 @pytest.mark.parametrize('params', [
@@ -139,3 +139,106 @@ def test_x_art_video_item(params):
         loader.add_value(k, v)
 
     assert XArtVideo(**loader.load_item())
+
+
+@pytest.mark.parametrize('params', [
+{'content': ['Here are a few “types” Kinky Aubrey, Baby Childhood Sweetheart, '
+             'Connie large breasts older woman lover and Alex Untouchable '
+             'Beauty Queen',
+             'X-Art.com',
+             ' to see more and more…',
+             'Baby',
+             '\xa0',
+             'Connie',
+             '\xa0and ',
+             'alex and Aubrey',
+             '\xa0so you can Join here; ',
+             'X-Art.com/join\xa0',
+             'for unlimited 4k downloads and streaming of thousands of movies '
+             'and hundreds of thousands of photos that never expire or limit '
+             'you with new updates all the time! BTW you can blow up your '
+             'favorite erotic art by Brigham and hang it on your wall and save '
+             'thousands (we do) Love, Colette',
+             '\n',
+             '\n'
+             '\t\t\t#gallery-1 {\n'
+             '\t\t\t\tmargin: auto;\n'
+             '\t\t\t}\n'
+             '\t\t\t#gallery-1 .gallery-item {\n'
+             '\t\t\t\tfloat: left;\n'
+             '\t\t\t\tmargin-top: 10px;\n'
+             '\t\t\t\ttext-align: center;\n'
+             '\t\t\t\twidth: 33%;\n'
+             '\t\t\t}\n'
+             '\t\t\t#gallery-1 img {\n'
+             '\t\t\t\tborder: 2px solid #cfcfcf;\n'
+             '\t\t\t}\n'
+             '\t\t\t#gallery-1 .gallery-caption {\n'
+             '\t\t\t\tmargin-left: 0;\n'
+             '\t\t\t}\n'
+             '\t\t\t/* see gallery_shortcode() in wp-includes/media.php */\n'
+             '\t\t',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n',
+             '\n'],
+ 'like_count': ['13'],
+ 'publish_time': ['January 13, 2017'],
+ 'title': ['Here are a few “types” Kinky Aubrey, Baby Childhood Sweetheart, '
+           'Connie large breasts older woman lover and Alex Untouchable Beauty '
+           'Queen']},
+
+{'content': ['Happy SuperBowl Sunday from Franzi & Coco!',
+             'Franziska used to be ',
+             'Francesca',
+             '\xa0one of our first and in my opinion best models and now '
+             'directors we have ever had. She is smart, funny, gorgeous and '
+             '(did I emphasize jaw-dropping gorgeous). That kind of beauty '
+             'that ',
+             'Caprice',
+             '\xa0and ',
+             'Jessica',
+             '\xa0have.',
+             '\n',
+             'Now Franzi and I travel all over the world to find the most '
+             'gorgeous girls who love to express themselves erotically. Check '
+             'out our models and see if you can find one girl that wouldn’t '
+             'make you drool all over a bar or turn your head away from the '
+             'game today. Or girls (the commercials). A beautiful woman or an '
+             'awesome game? Which do you choose?',
+             '\n',
+             'And off topic, before you judge our ',
+             'models',
+             '\xa0',
+             'come inside and get to know them',
+             '. They are so much more than beautiful faces and bodies.',
+             '\n',
+             'Happy Sunday,',
+             '\n',
+             'Love,',
+             '\n',
+             'Colette',
+             '\n'],
+ 'like_count': ['52'],
+ 'publish_time': ['February 6, 2017'],
+ 'title': ['Happy SuperBowl Sunday from Franzi & Coco!']},
+
+])
+def test_x_art_blog_post_item(params):
+    loader = ItemLoader(item=XArtBlogPostItem())
+    for k, v in params.items():
+        loader.add_value(k, v)
+
+    assert XArtBlogPost(**loader.load_item())

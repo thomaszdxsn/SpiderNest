@@ -6,7 +6,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-__all__ = ('XArtModel',)
+__all__ = ('XArtModel', 'XArtVideo', "XArtBlogPost")
 
 
 class XArtModel(BaseModel):
@@ -28,3 +28,10 @@ class XArtVideo(BaseModel):
     cast: Optional[List[str]]
     vote_count: int
     vote_score: float
+
+
+class XArtBlogPost(BaseModel):
+    title: str
+    like_count: int
+    publish_time: datetime
+    content: str
