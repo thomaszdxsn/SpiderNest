@@ -14,23 +14,23 @@ class XArtSpider(scrapy.Spider):
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
     }
+    _model_list_url = 'https://www.x-art.com/models/order/popularity/'
+    _video_list_url = 'https://www.x-art.com/videos/'
+    _blog_list_url = 'http://blog.x-art.com/'
 
     def start_requests(self):
-        # model_list_url = 'https://www.x-art.com/models/order/popularity/'
-        # yield Request(
-        #     model_list_url,
-        #     callback=self.parse_model_list
-        # )
-        #
-        # video_list_url = 'https://www.x-art.com/videos/'
-        # yield Request(
-        #     video_list_url,
-        #     callback=self.parse_video_list
-        # )
-
-        blog_list_url = 'http://blog.x-art.com/'
         yield Request(
-            blog_list_url,
+            self._model_list_url,
+            callback=self.parse_model_list
+        )
+
+        yield Request(
+            self._video_list_url,
+            callback=self.parse_video_list
+        )
+
+        yield Request(
+            self._blog_list_url,
             callback=self.parse_blog_list
         )
 
