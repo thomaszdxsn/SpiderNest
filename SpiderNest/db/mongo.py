@@ -26,6 +26,8 @@ def insert_item(spider_name: str, item: Type[Union[Item, dict]], connection_pool
     if isinstance(item, ImageItem):
         collection = db[dync_settings.IMAGE_COLLECTION]
 
+    # TODO: 一个spider可能返回不同的item，需要存储在不同的collection里面
+
     yield collection.insert(
         dict(item),
     )
