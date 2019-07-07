@@ -9,37 +9,25 @@ from ...items.porn import AvmooActressItem, AvmooMovieItem
 
 __all__ = ("AvmooSpider",)
 
-
+# TODO: 403错误需要解决
 class AvmooSpider(scrapy.Spider):
     name = 'avmoo'
     allowed_domains = ['avmoo.asia']
     start_urls = ['http://avmoo.asia/']
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
-    }
-    _HEADERS = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3833.0 Safari/537.36',
-        ':authority': 'avmoo.asia',
-        ':method': 'GET',
-        ':path': '/cn',
-        ':scheme': 'https',
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
-        'accept-encoding': 'gzip, deflate, br',
-        'cache-control': 'max-age=0',
-         'upgrade-insecure-requests': '1'
+        'DOWNLOAD_DELAY': 2
     }
 
     def start_requests(self):
-        # yield Request(
-        #     'https://avmoo.asia/cn/actresses',
-        #     callback=self.parse_actresses_list
-        # )
+        yield Request(
+            'https://avmoo.asia/cn/actresses',
+            callback=self.parse_actresses_list
+        )
 
         yield Request(
             'https://avmoo.asia/cn',
             callback=self.parse_movie_list,
-            headers=self._HEADERS
         )
 
     def parse_actresses_list(self, response: HtmlResponse):
@@ -79,7 +67,7 @@ class AvmooSpider(scrapy.Spider):
         yield AvmooActressItem(**item)
 
     def parse_movie_list(self, response: HtmlResponse):
-        for link in response.css('a.movie-box::attr(href)'):
+        for link in response.css('#waterfall a.movie-box::attr(href)'):
             yield response.follow(
                 link,
                 callback=self.parse_movie_detail

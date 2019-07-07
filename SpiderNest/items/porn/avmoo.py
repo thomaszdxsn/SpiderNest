@@ -1,9 +1,13 @@
+import arrow
 from scrapy import Item, Field
-from scrapy.loader.processors import TakeFirst, MapCompose
+from scrapy.loader.processors import TakeFirst, MapCompose, Identity
+
+from ..image import register_image_fields
 
 __all__ = ("AvmooActressItem", "AvmooMovieItem")
 
 
+@register_image_fields('avatar')
 class AvmooActressItem(Item):
     name_cn = Field(
         input_processor=MapCompose(str, str.strip),
@@ -27,15 +31,49 @@ class AvmooActressItem(Item):
     )
 
 
+@register_image_fields('cover', 'stills')
 class AvmooMovieItem(Item):
-    title = Field()
-    code = Field()
-    publish_time = Field()
-    time_length = Field()
-    publish_vendor = Field()
-    create_vendor = Field()
-    categories = Field()
-    cast = Field()
-    cover = Field()
-    stills = Field()
-    director = Field()
+    title = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    code = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    publish_time = Field(
+        input_processor=MapCompose(arrow.get, lambda x: x.naive),
+        output_processor=TakeFirst()
+    )
+    time_length = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    publish_vendor = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    create_vendor = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    categories = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=Identity()
+    )
+    cast = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=Identity()
+    )
+    cover = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
+    stills = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=Identity()
+    )
+    director = Field(
+        input_processor=MapCompose(str, str.strip),
+        output_processor=TakeFirst()
+    )
