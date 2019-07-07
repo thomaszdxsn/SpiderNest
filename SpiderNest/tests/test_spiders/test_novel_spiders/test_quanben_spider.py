@@ -1,8 +1,7 @@
-import re
-
 import pytest
+from scrapy.http import Request
 
-from SpiderNest.spiders.novel.quanben import QuanbenXiaoshuoSpider
+from SpiderNest.spiders.novel.quanben import QuanbenXiaoshuoSpider, QuanbenBookItem
 
 
 @pytest.mark.parametrize('raw,result', [
@@ -25,4 +24,11 @@ def test_match_AJAX_PARAMS_PATTERN(raw, dict_result):
     assert p.match(raw).groupdict() == dict_result
 
 
-# TODO: testcase for spider
+def test_spider_parse_book_list(resource_get):
+    spider = QuanbenXiaoshuoSpider()
+    start_request = next(spider.start_requests())
+    resp = resource_get(start_request.url, request=start_request)
+    parse_book_list_result = spider.parse_book_list(resp)
+
+    for yield_item in parse_book_list_result:
+        assert isinstance(yield_item, (QuanbenBookItem, Request))
