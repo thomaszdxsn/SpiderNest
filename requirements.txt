@@ -24,7 +24,7 @@ incremental==17.5.0
 ipython==7.4.0
 ipython-genutils==0.2.0
 jedi==0.13.3
-lxml==4.3.1
+lxml==4.6.3
 more-itertools==7.0.0
 packaging==19.0
 parsel==1.5.1
