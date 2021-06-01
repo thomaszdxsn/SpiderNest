@@ -69,7 +69,7 @@ traitlets==4.3.2
 Twisted==18.9.0
 txmongo==19.1.0
 Unidecode==1.0.23
-urllib3==1.24.2
+urllib3==1.26.5
 w3lib==1.20.0
 wcwidth==0.1.7
 zope.interface==4.6.0
