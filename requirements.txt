@@ -66,7 +66,7 @@ six==1.12.0
 termcolor==1.1.0
 toml==0.10.0
 traitlets==4.3.2
-Twisted==18.9.0
+Twisted==22.4.0
 txmongo==19.1.0
 Unidecode==1.0.23
 urllib3==1.24.2
